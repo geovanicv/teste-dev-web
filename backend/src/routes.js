@@ -1,16 +1,12 @@
 import {Router} from 'express'
-import Cliente from './app/models/Cliente'
+
+import ClienteController from './app/controllers/ClienteController'
 
 const routes = new Router();
 
-routes.get('/', async (req, res) => {
-  const cliente = await Cliente.create({
-    name: 'Geovani Silva Cavalcante',
-    email: 'geovani@gmail.com',
-    tags: 'TI, Dev, UI'
-  })
-  
-  return res.json(cliente)
-})
+routes.get('/clientes', ClienteController.index)
+routes.post('/clientes', ClienteController.store)
+routes.put('/clientes/:id', ClienteController.update)
+routes.delete('/clientes/:id', ClienteController.delete)
 
 export default routes

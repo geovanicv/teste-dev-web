@@ -1,9 +1,7 @@
 // conexão com o banco 
 
 import Sequelize from 'sequelize'
-
 import Cliente from '../app/models/Cliente'
-
 import dbConfig from '../config/database'
 
 const models = [Cliente]
