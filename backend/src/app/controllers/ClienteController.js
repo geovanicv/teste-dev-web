@@ -2,6 +2,21 @@ import Cliente from '../models/Cliente'
 
 class ClienteController {
   async index(req, res){
+
+    const {id} = req.params;
+
+    if(id) {
+      const client = await Cliente.findOne({
+        where: {id}
+      });
+
+      if(!client) {
+        return res.status(400).json({error: 'Usuario não encontrado'})
+      }
+
+      return res.json(client)
+    }
+
     const clients = await Cliente.findAll();
     return res.json(clients)
   }

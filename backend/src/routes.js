@@ -5,6 +5,7 @@ import ClienteController from './app/controllers/ClienteController'
 const routes = new Router();
 
 routes.get('/clientes', ClienteController.index)
+routes.get('/clientes/:id', ClienteController.index)
 routes.post('/clientes', ClienteController.store)
 routes.put('/clientes/:id', ClienteController.update)
 routes.delete('/clientes/:id', ClienteController.delete)
