@@ -9,7 +9,6 @@ import api from '../../services/api'
 import './styles.css'
 
 
-
 export default function Main() {
   const [clients, setClientes] = useState([])
 
@@ -51,6 +50,7 @@ export default function Main() {
 
     if(cliente === '') {
       loadClients()
+      return
     }
 
     try{
