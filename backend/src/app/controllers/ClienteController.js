@@ -1,120 +1,120 @@
 import * as Yup from 'yup';
 
-import Cliente from '../models/Cliente'
-import {Op} from 'sequelize'
+import { Op } from 'sequelize';
+import Cliente from '../models/Cliente';
 
 class ClienteController {
-  async index(req, res){
+  async index(req, res) {
+    const { namec } = req.params;
 
-    const {namec} = req.params;
-
-    if(namec) {
+    if (namec) {
       const client = await Cliente.findAll({
-        where: { 
+        where: {
           name: {
-            [Op.iLike]: `${namec}%`
-           
-        }}
+            [Op.iLike]: `${namec}%`,
+          },
+        },
       });
 
-      if(!client) {
-        return res.status(400).json({error: 'Usuario não encontrado'})
+      if (!client) {
+        return res.status(400).json({ error: 'Usuario não encontrado' });
       }
 
-      return res.json(client)
+      return res.json(client);
     }
 
     const clients = await Cliente.findAll();
-    return res.json(clients)
+    return res.json(clients);
   }
 
   async show(req, res) {
-    const {id} = req.params;
-    
+    const { id } = req.params;
+
     const clientExists = await Cliente.findByPk(id);
-    if(!clientExists){
-      return res.json({error: 'Cliente não encontrado!'})
+    if (!clientExists) {
+      return res.json({ error: 'Cliente não encontrado!' });
     }
 
-    return res.json(clientExists)
-
+    return res.json(clientExists);
   }
 
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      email: Yup.string().email().required(),
+      email: Yup.string()
+        .email()
+        .required(),
       tags: Yup.string(),
-    })
+    });
 
     if (!(await schema.isValid(req.body))) {
-			return res.status(400).json({ error: 'Validação dos dados falhou' });
-		}
-
-    const clientExists = await Cliente.findOne({
-      where: { email: req.body.email }
-    }) 
-
-    if(clientExists) {
-      return res.status(400).json({error: 'E-mail já cadastrado'})
+      return res.status(400).json({ error: 'Validação dos dados falhou' });
     }
 
-    const cliente = await Cliente.create(req.body) 
+    const clientExists = await Cliente.findOne({
+      where: { email: req.body.email },
+    });
 
-    return res.status(200).json(cliente)
+    if (clientExists) {
+      return res.status(400).json({ error: 'E-mail já cadastrado' });
+    }
+
+    const cliente = await Cliente.create(req.body);
+
+    return res.status(200).json(cliente);
   }
 
   async update(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      email: Yup.string().email().required(),
+      email: Yup.string()
+        .email()
+        .required(),
       tags: Yup.string(),
-    })
+    });
 
     if (!(await schema.isValid(req.body))) {
-			return res.status(400).json({ error: 'Validação dos dados falhou' });
-		}
-
-    const {id} = req.params;
-
-    const client = await Cliente.findByPk(id)
-
-    if(!client) {
-      return res.status(400).json({ error: 'Cliente não encontrado'})
+      return res.status(400).json({ error: 'Validação dos dados falhou' });
     }
 
-    const {email} = req.body;
+    const { id } = req.params;
 
-    if(email !== client.email){
+    const client = await Cliente.findByPk(id);
+
+    if (!client) {
+      return res.status(400).json({ error: 'Cliente não encontrado' });
+    }
+
+    const { email } = req.body;
+
+    if (email !== client.email) {
       const emailExists = await Cliente.findOne({
-        where: { email }
-      }) 
+        where: { email },
+      });
 
-      if(emailExists) {
-        return res.status(400).json({error: 'E-mail já cadastrado'})
+      if (emailExists) {
+        return res.status(400).json({ error: 'E-mail já cadastrado' });
       }
     }
 
-    await client.update(req.body)
+    await client.update(req.body);
 
-    return res.status(200).json(client)
-
+    return res.status(200).json(client);
   }
 
   async delete(req, res) {
-    const {id} = req.params;
+    const { id } = req.params;
 
-    const clientExists = await Cliente.findByPk(id)
-    
-    if(!clientExists){
-      return res.status(400).json({error: 'Cliente não existe'})
+    const clientExists = await Cliente.findByPk(id);
+
+    if (!clientExists) {
+      return res.status(400).json({ error: 'Cliente não existe' });
     }
 
-    await Cliente.destroy({where: {id}})
+    await Cliente.destroy({ where: { id } });
 
-    return res.status(200).json({message: 'Cliente deletado'})
+    return res.status(200).json({ message: 'Cliente deletado' });
   }
 }
-
 
 export default new ClienteController();

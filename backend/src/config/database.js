@@ -1,4 +1,4 @@
-require('dotenv/config')
+require('dotenv/config');
 
 // configuração do database utilizada na aplicação
 // será exportado um objeto com as configs necessárias para acessar o database

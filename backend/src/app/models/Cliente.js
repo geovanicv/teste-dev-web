@@ -1,5 +1,4 @@
-import Sequelize, {Model} from 'sequelize'
-
+import Sequelize, { Model } from 'sequelize';
 
 class Cliente extends Model {
   static init(connection) {
