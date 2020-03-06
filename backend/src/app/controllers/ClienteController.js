@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+
 import Cliente from '../models/Cliente'
 import {Op} from 'sequelize'
 
@@ -39,6 +41,16 @@ class ClienteController {
   }
 
   async store(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string().email().required(),
+      tags: Yup.string(),
+    })
+
+    if (!(await schema.isValid(req.body))) {
+			return res.status(400).json({ error: 'Validação dos dados falhou' });
+		}
+
     const clientExists = await Cliente.findOne({
       where: { email: req.body.email }
     }) 
@@ -49,10 +61,20 @@ class ClienteController {
 
     const cliente = await Cliente.create(req.body) 
 
-    return res.json(cliente)
+    return res.status(200).json(cliente)
   }
 
   async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string().email().required(),
+      tags: Yup.string(),
+    })
+
+    if (!(await schema.isValid(req.body))) {
+			return res.status(400).json({ error: 'Validação dos dados falhou' });
+		}
+
     const {id} = req.params;
 
     const client = await Cliente.findByPk(id)
@@ -75,7 +97,7 @@ class ClienteController {
 
     await client.update(req.body)
 
-    return res.json(client)
+    return res.status(200).json(client)
 
   }
 
