@@ -1,13 +1,18 @@
 import Cliente from '../models/Cliente'
+import {Op} from 'sequelize'
 
 class ClienteController {
   async index(req, res){
 
-    const {id} = req.params;
+    const {namec} = req.params;
 
-    if(id) {
-      const client = await Cliente.findOne({
-        where: {id}
+    if(namec) {
+      const client = await Cliente.findAll({
+        where: { 
+          name: {
+            [Op.iLike]: `${namec}%`
+           
+        }}
       });
 
       if(!client) {
@@ -19,6 +24,18 @@ class ClienteController {
 
     const clients = await Cliente.findAll();
     return res.json(clients)
+  }
+
+  async show(req, res) {
+    const {id} = req.params;
+    
+    const clientExists = await Cliente.findByPk(id);
+    if(!clientExists){
+      return res.json({error: 'Cliente não encontrado!'})
+    }
+
+    return res.json(clientExists)
+
   }
 
   async store(req, res) {
