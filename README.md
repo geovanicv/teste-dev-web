@@ -10,6 +10,7 @@ BackEnd
   - Framework Express 
   - Sequelize como ORM
   - Postgres como banco de dados
+  - VS Code com EditorConfig, Eslint e Prettier para padronização de código
   
 FrontEnd
   - Foi utilizado o ReactJs para a construção do Client.
