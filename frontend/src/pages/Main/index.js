@@ -1,27 +1,33 @@
 import React, {useEffect, useState} from 'react'
+import { MdSearch, MdDelete, MdEdit } from 'react-icons/md';
 import {Link} from 'react-router-dom'
 import {confirmAlert} from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
+import {toast} from 'react-toastify'
 import api from '../../services/api'
+import './styles.css'
 
-import { Container, ProductTable } from './styles'
+
 
 export default function Main() {
   const [clients, setClientes] = useState([])
 
+  
   useEffect(()=>{
-    async function loadClients() {
-
-      try{
-        const response = await api.get('clientes')
-        setClientes(response.data)
-      } catch(err) {
-        alert('erro na requsição')
-      }
-    }
-
     loadClients()
   }, [])
+
+  async function loadClients() {
+
+    try{
+      const response = await api.get('clientes')
+      setClientes(response.data)
+    } catch(err) {
+      alert('erro na requsição')
+    }
+  }
+
 
   function confirmAlertDelete(id){
     confirmAlert({
@@ -40,22 +46,45 @@ export default function Main() {
     })
   }
 
-  async function handleDelete(id) {
+  async function handleSearch() {
+    const cliente = document.getElementById('search').value;
+
+    if(cliente === '') {
+      loadClients()
+    }
+
     try{
-      await api.delete(`/clientes/${id}`) 
-      window.location.reload()      
+      const response = await api.get(`clientes/filter/${cliente}`)
+      setClientes(response.data)
     } catch(err) {
-      alert(err)
+      alert('erro na requsição')
     }
     
   }
 
+  async function handleDelete(id) {
+
+      await api.delete(`/clientes/${id}`) 
+      window.location.reload()
+      toast.success('Cliente deletado!')
+  }
+
   return (
-    <Container>
-      
-        <Link to={'/clientes'}>Cadastrar</Link>
-      
-      <ProductTable>
+    <>
+      <div className="header">
+        <button className="cadastrar" type="button">
+          <Link to={'/clientes'}>Cadastrar um novo cliente</Link>
+        </button>
+
+        <div className="search">
+          <input type="text" id="search" placeholder="pesquisar cliente" />
+          <button type="button" onClick={()=>handleSearch()}>
+            <MdSearch size={36} color="#FFF" />
+          </button>
+        </div>
+      </div>
+
+      <table>
       <thead>
         <tr>
           <th>NOME</th>
@@ -77,12 +106,14 @@ export default function Main() {
               <strong>{client.tags}</strong>
             </td>
             <td>
-              <div>
+              <div className="actions">
                 <button type="button">
-                  <Link to={`clientes/${client.id}`}>Editar</Link>
+                  <Link to={`clientes/${client.id}`}>
+                    <MdEdit size={30} color="#7159c1" />
+                  </Link>
                 </button>
                 <button type="button" onClick={()=>confirmAlertDelete(client.id)}>
-                  Excluir
+                  <MdDelete size={30} color="#7159c1" />
                 </button>
               </div>
             </td>
@@ -90,8 +121,8 @@ export default function Main() {
         ))}
           
       </tbody>
-      </ProductTable>
-    </Container>
+    </table>
+    </>
    
   );
 }

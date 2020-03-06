@@ -2,7 +2,7 @@ import React from 'react'
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
 import Main from './pages/Main'
-import ClientEdit from './pages/ClientEdit'
+import ClientUpdate from './pages/ClientUpdate'
 import ClientCreate from './pages/ClientCreate'
 
 export default function Routes(){
@@ -11,7 +11,7 @@ export default function Routes(){
       <Switch>
         <Route path="/" exact component={Main}/>
         <Route path="/clientes" exact component={ClientCreate}/>
-        <Route path="/clientes/:id" exact component={ClientEdit}/>
+        <Route path="/clientes/:id" exact component={ClientUpdate}/>
       </Switch>
     </BrowserRouter>
   )

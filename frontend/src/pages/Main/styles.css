@@ -1,0 +1,66 @@
+div .header {
+  display: flex;
+  justify-content: space-between;
+}
+
+div .header input {
+  width: 300px;
+}
+
+button.cadastrar {
+  width: 250px;
+}
+
+div .search  {
+  display: flex;
+}
+
+div .search input {
+  width: 220px;
+  border: 1px solid #e6ecf0;
+  border-radius: 16px;
+  height: 34px;
+  padding: 0 30px 0 12px;
+  color: #667581;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+div  {
+  border-radius: 4px;
+}
+
+table{
+  width: 100%;
+}
+
+thead th {
+  color: #999;
+  text-align: left;
+  padding: 12px;
+
+}
+
+tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+button.cadastrar {
+  margin-bottom: 15px;
+ 
+  
+}
+div.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+div.actions button{
+  
+  margin-left: 10px;
+  background: #FFF; 
+  
+}
+
