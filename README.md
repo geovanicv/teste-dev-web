@@ -49,7 +49,7 @@ http://localhost:3333, basta startar o server com o seguinte comando:
 $ yarn dev
 
 ```
-# São 5 rotas possíveis:
+# São 6 rotas possíveis:
 
 GET - '/clientes'                      	 
 Lista todos os clientes
@@ -77,7 +77,7 @@ DELETE '/clientes/:id'
 Realiza a ação de deletar da base de dados um cliente específico
 
 
-# Para dar o start na aplicação basta rodar o seguinte script:
+# Para dar o start no backend basta rodar o seguinte script:
 ```
 $ yarn dev
 ```
